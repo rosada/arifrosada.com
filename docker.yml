@@ -1,0 +1,24 @@
+---
+- hosts : client
+  become: true
+  tasks:
+   - name: update&upgarde
+     apt: update_cache=yes upgrade=yes
+   - name: Install apt dll
+     apt: name={{ item }} state=installed
+     with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+   - name: curl docker
+     shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+   - name: apt add repo
+     shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+   - name: update lagi
+     apt: update_cache=yes
+   - name: install docker
+     shell: apt-get install docker-ce -y
+   - name: cek 
+     shell: docker run hello-world
