@@ -22,3 +22,10 @@
      shell: apt-get install docker-ce -y
    - name: cek 
      shell: docker run hello-world
+   - name: add user vagrant to docker
+     user:
+        name: vagrant
+        shell: /bin/bash
+        groups: docker
+        state: present
+        remove: yes
